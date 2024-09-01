@@ -40,7 +40,7 @@ loginForm.addEventListener('submit', function(event) {
 
       const encodedData = new URLSearchParams({ 'S': `${username}⇥${password}⇥${name}⇥${fam}⇥${age}⇥${phone}⇥${mail}⇥${otch}⇥${tra.toString()}` }).toString();
       //http://serverdelivery.somee.com/Home/LoginPassword
-      fetch('http://serverdelivery.somee.com/Home/RegCourier' ,  {
+      fetch('https://serverdelivery.somee.com/Home/RegCourier' ,  {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded' // Указываем формат данных
