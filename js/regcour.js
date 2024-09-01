@@ -58,7 +58,7 @@ loginForm.addEventListener('submit', function(event) {
         console.log(dataFromServer); // Выводим данные в консоль
         let dataaccount = dataFromServer.split('⇥');
         if(dataaccount[0] == 'ST2') {
-            window.location.href = '..';
+            window.location.href = '../index.html';
         }
         else if (dataaccount[0] == 'ST1'){
             let itema = document.getElementById("soob");
@@ -72,5 +72,5 @@ loginForm.addEventListener('submit', function(event) {
       });
 });
 document.getElementById('returnf').onclick = function() {
-    window.location.href = '..';
+    window.location.href = '../index.html';
   };
