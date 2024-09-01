@@ -1,0 +1,75 @@
+body {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column; /* Изменяем направление flexbox на столбцовое */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.login-form {
+  background-color: #fff;
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      width: 350px;
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 10px; /* Уменьшаем отступы между полями формы */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px; /* Уменьшаем отступы в полях ввода */
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+
+.form-group button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.soob {
+  background-color: red;
+}
+
+.form-group button:hover {
+  background-color: #45a049;
+}
+
+/* Media Query для мобильных устройств */
+@media (max-width: 600px) {
+  .login-form {
+    padding: 15px; /* Еще больше уменьшаем отступы */
+    max-width: 350px;
+  }
+
+  .form-group label {
+    font-size: 14px; /* Уменьшаем размер шрифта */
+  }
+
+  .form-group input {
+    padding: 6px; /* Еще больше уменьшаем отступы */
+    font-size: 14px; /* Уменьшаем размер шрифта */
+  }
+}
