@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница клиента</title>
+    <link rel="stylesheet" href="../css/pagenavclient.css">
+</head>
+<body>
+    <div class="topcontainer">
+
+    </div>
+    <div class="container">
+        <div class="page active" id="page1">
+
+        </div>
+        <div class="page" id="page2">
+
+        </div>
+        <div class="page" id="page3">
+            <div class="form-group">
+        <label for="username">Логин:</label>
+        <input type="text" id="username" name="username" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" readonly>
+      </div>
+      <div class="form-group">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" readonly>
+      </div>
+      <div class="form-group">
+        <label for="name">Фамилия:</label>
+        <input type="text" id="fam" readonly>
+      </div>
+      <div class="form-group">
+        <label for="name">Отчество:</label>
+        <input type="text" id="otch" readonly>
+      </div>
+      <div class="form-group">
+        <label for="name">Возвраст:</label>
+        <input type="text" id="Age" readonly>
+      </div>
+      <div class="form-group">
+        <label for="number">Номер телефона:</label>
+        <input type="text" id="Phone" readonly>
+      </div>
+      <div class="form-group">
+        <label for="name">Почта:</label>
+        <input type="text" id="Mail" readonly>
+      </div>
+      <div class="form-group">
+        <label for="name">Личный автомобиль:</label>
+        <input type="text" id="Car" readonly>
+      </div>
+      <div class="form-group">
+        <button type="submitreg" id="returnf">Выйти</button>
+      </div>
+        </div>
+    </div>
+
+    <nav>
+        <a href="#" class="active" data-page="page1">Заказы</a>
+        <a href="#" data-page="page2">Активные</a>
+        <a href="#" data-page="page3">Аккаунт</a>
+    </nav>
+
+    <script src="../js/pagenavcourier.js"></script> 
+</body>
+</html>

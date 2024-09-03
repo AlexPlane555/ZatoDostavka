@@ -1,0 +1,92 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.container {
+    padding: 30px;
+    margin-bottom: 20px;
+}
+
+.page {
+    display: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    height: 700px;
+}
+.form-group {
+    margin-bottom: 10px; /* Уменьшаем отступы между полями формы */
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 8px; /* Уменьшаем отступы в полях ввода */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+  }
+.order-item {
+    border: 3px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .form-group button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+.topcontainer {
+    background-color: #45a049;
+    padding: 4px;
+    width: 100%;
+    position: fixed;
+}
+.topcontainer button {
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    right: -85%;
+}
+
+.page.active {
+    display: block;
+}
+
+nav {
+    background-color: #45a049;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+nav a {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 8px 15px;
+    text-decoration: none;
+    color: #333;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+nav a.active {
+    background-color: #ddd;
+}
