@@ -47,7 +47,12 @@ body {
     cursor: pointer;
     width: 100%;
   }
-
+  .topcontainer2 {
+    background-color: #45a049;
+    padding: 23px;
+    width: 100%;
+    position: fixed;
+}
 .topcontainer {
     background-color: #45a049;
     padding: 4px;
