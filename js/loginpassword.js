@@ -52,7 +52,7 @@ function loginpassword(login, password, first) {
     }
     else if (dataaccount[0] == 'No'){
         let itema = document.getElementById("soob");
-        if (first == false) {
+        if (first == 0) {
           itema.innerText = `Неверный логин или пароль`;
         }
 
@@ -75,7 +75,7 @@ loginForm.addEventListener('submit', function(event) {
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
 
-  loginpassword(username, password, true);      
+  loginpassword(username, password, 0);      
 });
 
 
@@ -85,7 +85,7 @@ document.getElementById('buttonreg').onclick = function() {
 
 document.addEventListener("DOMContentLoaded", function() {
    if (localStorage.getItem('login') != '' && localStorage.getItem('password') != '') {
-    loginpassword(localStorage.getItem('login'), localStorage.getItem('password'), true);
+    loginpassword(localStorage.getItem('login'), localStorage.getItem('password'), 1);
    }
 });
 
