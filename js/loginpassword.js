@@ -1,7 +1,7 @@
 const loginForm = document.getElementById('loginForm');
 const regb = document.getElementById('buttonreg');
 
-function loginpassword(login, password) {
+function loginpassword(login, password, first) {
   const encodedData = new URLSearchParams({ 'S': `${login}⇥${password}` }).toString();
   //http://serverdelivery.somee.com/Home/LoginPassword
   fetch('https://serverdelivery.somee.com/Home/LoginPassword' ,  {
@@ -52,7 +52,9 @@ function loginpassword(login, password) {
     }
     else if (dataaccount[0] == 'No'){
         let itema = document.getElementById("soob");
-        itema.innerText = `Неверный логин или пароль`;
+        if (first == false) {
+          itema.innerText = `Неверный логин или пароль`;
+        }
 
     }
     else {
@@ -73,7 +75,7 @@ loginForm.addEventListener('submit', function(event) {
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
 
-  loginpassword(username, password);      
+  loginpassword(username, password, true);      
 });
 
 
@@ -83,7 +85,7 @@ document.getElementById('buttonreg').onclick = function() {
 
 document.addEventListener("DOMContentLoaded", function() {
    if (localStorage.getItem('login') != '' && localStorage.getItem('password') != '') {
-    loginpassword(localStorage.getItem('login'), localStorage.getItem('password'));
+    loginpassword(localStorage.getItem('login'), localStorage.getItem('password'), true);
    }
 });
 
