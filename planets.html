@@ -19,7 +19,7 @@
 
     const config = {
         starsCount: 100,
-        charsCount: 800, // Немного уменьшим, чтобы не тормозило при проверках
+        charsCount: 800, 
         planetRadius: 160,
         speed: 0.0025,
         pauseDuration: 100,
@@ -58,7 +58,7 @@
         constructor(colorTheme, sizeMultiplier, id) {
             this.colorTheme = colorTheme;
             this.sizeMultiplier = sizeMultiplier;
-            this.id = id; // Идентификатор: 0 - левая, 1 - правая
+            this.id = id;
             this.chars = [];
             this.generateChars();
         }
@@ -95,34 +95,26 @@
             }
         }
 
-        // Функция для отталкивания от чужих планет
         resolveCollisions(otherPlanets) {
-            // Сначала возвращаем к базовым позициям (чтобы не было накопления ошибки)
             for (let c of this.chars) {
                 c.currentX = c.baseX;
                 c.currentY = c.baseY;
             }
 
-            // Проходим по всем другим планетам
             for (let other of otherPlanets) {
-                if (other.id === this.id) continue; // Пропускаем себя
+                if (other.id === this.id) continue;
 
-                // Находим вектор между центрами планет (глобальные координаты)
                 const dx = other.centerX - this.centerX;
                 const dy = other.centerY - this.centerY;
                 const distBetweenCenters = Math.sqrt(dx * dx + dy * dy);
-                
-                // Если планеты далеко, отталкивание не нужно
+
                 const minDistBetweenCenters = config.planetRadius * (this.sizeMultiplier + other.sizeMultiplier);
                 if (distBetweenCenters > minDistBetweenCenters + 20) continue;
 
-                // Если планеты близко, проверяем каждый символ
                 for (let c of this.chars) {
-                    // Глобальная позиция нашего символа
                     const globalX = this.centerX + c.currentX;
                     const globalY = this.centerY + c.currentY;
 
-                    // Ищем ближайший символ у другой планеты
                     let closestDist = Infinity;
                     let closestChar = null;
                     let closestOtherIndex = -1;
@@ -143,9 +135,7 @@
                         }
                     }
 
-                    // Если символы пересекаются (например, ближе 8 пикселей)
                     if (closestDist < 8) {
-                        // Вектор отталкивания (от чужого к нашему)
                         const ogX = other.centerX + closestChar.currentX;
                         const ogY = other.centerY + closestChar.currentY;
                         
@@ -153,12 +143,10 @@
                         const pushY = globalY - ogY;
                         const len = Math.sqrt(pushX * pushX + pushY * pushY) || 1;
 
-                        // Отталкиваем наш символ
                         const force = 5;
                         c.currentX += (pushX / len) * force;
                         c.currentY += (pushY / len) * force;
 
-                        // Отталкиваем чужой символ (чтобы не было одностороннего наложения)
                         closestChar.currentX -= (pushX / len) * force;
                         closestChar.currentY -= (pushY / len) * force;
                     }
@@ -237,17 +225,14 @@
             }
         }
 
-        // Устанавливаем глобальные позиции перед проверкой столкновений
         planets[0].centerX = leftX;
         planets[0].centerY = cy;
         planets[1].centerX = rightX;
         planets[1].centerY = cy;
 
-        // Разрешаем столкновения между символами
         planets[0].resolveCollisions(planets);
         planets[1].resolveCollisions(planets);
 
-        // Отрисовка
         planets[0].draw(leftX, cy);
         planets[1].draw(rightX, cy);
 
