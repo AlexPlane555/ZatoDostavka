@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Планеты</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: monospace;
+        }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+<canvas id="spaceCanvas"></canvas>
+<script>
+    const canvas = document.getElementById('spaceCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+
+    // Конфигурация
+    const config = {
+        starsCount: 150,
+        charsCount: 1200, // Количество символов в одной планете
+        planetRadius: 180, // Радиус планеты
+        speed: 0.005, // Скорость сближения
+        chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?"
+    };
+
+    let stars = [];
+    let planets = [];
+
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        initStars();
+    }
+    window.addEventListener('resize', resize);
+
+    // Инициализация звезд
+    function initStars() {
+        stars = [];
+        for (let i = 0; i < config.starsCount; i++) {
+            stars.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: Math.random() * 1.5 + 0.5,
+                alpha: Math.random() * 0.8 + 0.2
+            });
+        }
+    }
+
+    // Класс планеты
+    class Planet {
+        constructor(offsetX, colorTheme) {
+            this.offsetX = offsetX;
+            this.baseOffsetX = offsetX;
+            this.colorTheme = colorTheme;
+            this.chars = [];
+            this.generateChars();
+        }
+
+        generateChars() {
+            this.chars = [];
+            for (let i = 0; i < config.charsCount; i++) {
+                const r = Math.sqrt(i / config.charsCount) * config.planetRadius;
+                const theta = i * 0.5;
+                
+                const noiseR = (Math.random() - 0.5) * 20;
+                const noiseTheta = (Math.random() - 0.5) * 0.5;
+
+                const finalR = r + noiseR;
+                const finalTheta = theta + noiseTheta;
+
+                const x = Math.cos(finalTheta) * finalR;
+                const y = Math.sin(finalTheta) * finalR;
+
+                let color;
+                if (this.colorTheme === "blue") {
+                    color = `rgba(${Math.floor(Math.random() * 100 + 50)}, ${Math.floor(Math.random() * 100 + 150)}, 255, ${Math.random() * 0.5 + 0.5})`;
+                } else {
+                    color = `rgba(255, 255, 255, ${Math.random() * 0.6 + 0.4})`;
+                }
+
+                this.chars.push({
+                    baseX: x,
+                    baseY: y,
+                    currentX: x,
+                    currentY: y,
+                    char: config.chars[Math.floor(Math.random() * config.chars.length)],
+                    color: color,
+                    size: Math.random() * 6 + 8,
+                    speedX: 0,
+                    speedY: 0
+                });
+            }
+        }
+
+        // Обновление позиции символов (для эффекта перемешивания)
+        update(centerX, centerY, mixFactor) {
+            this.chars.forEach(c => {
+                if (mixFactor > 0) {
+                    // Добавляем случайное движение (смешивание)
+                    c.speedX += (Math.random() - 0.5) * mixFactor * 2;
+                    c.speedY += (Math.random() - 0.5) * mixFactor * 2;
+                    
+                    // Затухание скорости (чтобы не улетали)
+                    c.speedX *= 0.95;
+                    c.speedY *= 0.95;
+
+                    c.currentX += c.speedX;
+                    c.currentY += c.speedY;
+
+                    // Ограничиваем разлет (чтобы не вылетали за пределы планеты)
+                    const dist = Math.sqrt(c.currentX * c.currentX + c.currentY * c.currentY);
+                    if (dist > config.planetRadius * 1.5) {
+                        // Возвращаем обратно
+                        c.currentX *= 0.95;
+                        c.currentY *= 0.95;
+                    }
+                } else {
+                    // Плавное возвращение на место
+                    c.currentX += (c.baseX - c.currentX) * 0.05;
+                    c.currentY += (c.baseY - c.currentY) * 0.05;
+                    c.speedX *= 0.9;
+                    c.speedY *= 0.9;
+                }
+            });
+        }
+
+        draw(centerX, centerY) {
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            
+            this.chars.forEach(c => {
+                ctx.fillStyle = c.color;
+                ctx.font = `${c.size}px monospace`;
+                ctx.fillText(c.char, c.currentX, c.currentY);
+            });
+            
+            ctx.restore();
+        }
+    }
+
+    // Инициализация планет
+    function initPlanets() {
+        const startOffset = width * 0.35;
+        planets = [
+            new Planet(-startOffset, "blue"),
+            new Planet(startOffset, "white")
+        ];
+    }
+
+    // Анимация
+    let t = 0;
+
+    function animate() {
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, width, height);
+
+        // Рисуем звезды
+        stars.forEach(s => {
+            ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+            ctx.fill();
+            
+            s.alpha += (Math.random() - 0.5) * 0.05;
+            if (s.alpha < 0.1) s.alpha = 0.1;
+            if (s.alpha > 1) s.alpha = 1;
+        });
+
+        const cx = width / 2;
+        const cy = height / 2;
+
+        t += config.speed;
+        
+        const phaseAngle = t % (Math.PI * 2);
+        
+        // Коэффициент сближения (1 - далеко, 0 - вместе)
+        const closeness = (1 + Math.cos(phaseAngle)) / 2;
+        
+        // Расстояние между планетами
+        const maxDist = width * 0.35;
+        const currentDist = maxDist * closeness;
+
+        const leftX = cx - currentDist;
+        const rightX = cx + currentDist;
+
+        // Фактор смешивания (чем ближе, тем сильнее смешивание)
+        // 0 - далеко, 1 - полностью смешаны
+        const mixFactor = 1 - closeness; 
+
+        // Обновляем и рисуем планеты
+        planets[0].update(leftX, cy, mixFactor);
+        planets[1].update(rightX, cy, mixFactor);
+
+        planets[0].draw(leftX, cy);
+        planets[1].draw(rightX, cy);
+
+        // Эффект вспышки при слиянии
+        if (closeness < 0.1) {
+            const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, config.planetRadius * 2);
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+            gradient.addColorStop(0.5, 'rgba(100, 150, 255, 0.1)');
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(cx, cy, config.planetRadius * 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    // Запуск
+    resize();
+    initPlanets();
+    animate();
+
+</script>
+</body>
+</html>
